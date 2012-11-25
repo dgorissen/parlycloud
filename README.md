@@ -1,7 +1,8 @@
 Parlycloud
 ===========
 
-Small Flask webapp that takes UK Parliament [http://ukparse.kforge.net/parldata/scrapedxml/debates/](Hansard data), caches it, and uses the [http://zemanta.com](Zemanta API) to generate relevant topics, categories and images.
+Small Flask webapp that takes UK Parliament [Hansard data](http://ukparse.kforge.net/parldata/scrapedxml/debates/),
+caches it, and uses the [Zemanta API](http://zemanta.com) to generate relevant topics, categories and images.
 
 Hansard XML files are assumed to be in an xml subdirectory.
 
