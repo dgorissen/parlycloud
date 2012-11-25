@@ -5,6 +5,16 @@ import json
 import glob
 import os
 
+"""
+Small webapp that takes UK Parliament Hansard data from 
+http://ukparse.kforge.net/parldata/scrapedxml/debates/, caches it
+and uses the Zemanta API to generate relevant topics, categories and images.
+
+Hansard XML files are assumed to be in an xml subdirectory.
+
+Details: http://dirkgorissen.com/2012/11/25/rewired-state-hack-weekend-2012
+"""
+
 def get_topics_yahoo(text):
     url = 'http://search.yahooapis.com/ContentAnalysisService/V1/termExtraction'
     appid = 'YahooDemo'
@@ -61,7 +71,7 @@ def save_cache(data):
         resfile.close()
 
 def build_cache():
-
+    """Cache all zemanta results in a local json file"""
     results = load_cache()
 
     for fname in get_files():
@@ -124,5 +134,5 @@ def main():
     app.run(host="0.0.0.0",port=port,debug=True)
 
 if  __name__ == "__main__":
-    # build_cache()
+    # build_cache() # do this first if running for the first time
     main()
