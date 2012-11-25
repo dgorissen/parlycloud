@@ -33,11 +33,11 @@ def get_topics_zemanta(text):
     args_enc = urllib.urlencode(args)
     raw_output = urllib.urlopen(gateway, args_enc).read()
     output = json.loads(raw_output)
-    
+
     kwds = output['keywords']
     cats = output['categories']
     imgs = [x["url_m"] for x in output['images']]
-    
+
     return kwds,cats,imgs
 
 def get_files():
@@ -78,7 +78,7 @@ def build_cache():
         txt = txt.encode('ascii','ignore')
         txt = re.sub('[^\w\.,: ]','',txt)
         kwds,cats,imgs = get_topics_zemanta(txt)
-        
+
         print 
         print kwds
 
@@ -87,37 +87,37 @@ def build_cache():
         save_cache(results)
 
 def main():
+    """Tiny flask app"""
+
     from flask import Flask, render_template
     app = Flask(__name__)
-    
+
     data = load_cache()
     dates = sorted(data.keys())
 
     @app.route('/')
     @app.route('/<path:date>')
     def main_view(date=None):
-        print "date is ",date
-        
-        if date == "favicon.ico": return ""
-
         if not date:
-            curdate = dates[0]
-            next = dates[1]
-            prev = dates[0]
+            i = 0
         else:
-            curdate = date
-            i = dates.index(curdate)
-            next = dates[min(i+1,len(dates)-1)]
-            prev = dates[max(i-1,0)]
-        
-        # prepare category url
+            try:
+                i = dates.index(date)
+            except:
+                i = 0
+
+        curdate = dates[i]
+        next = dates[min(i+1,len(dates)-1)]
+        prev = dates[max(i-1,0)]
+
+        # pre-process categories for templating
         d = data[curdate]
         cats = d["categories"]
         for c in cats:
             c["name"] = c["name"].replace("Top/","")
             c["shortname"] = "/".join(c["name"].split("/")[-2:])
         d["categories"] = cats
-        
+
         return  render_template("main.html",data=d,next=next,prev=prev,date=curdate)
 
     port = int(os.environ.get('PORT', 5000))
