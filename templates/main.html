@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>{{ date }} in Parliament</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='parlycloud.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='bootstrap/css/bootstrap.css') }}">
+    <style>
+      body {
+        padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+      }
+    </style>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='bootstrap/css/bootstrap-responsive.css') }}">
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="#">The debate in parliament on {{ date }}</a>
+          <div class="nav-collapse collapse">
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+      <div class="container-fluid">
+      <div class="row-fluid">
+        <div class="span4">
+          <div class="well sidebar-nav">
+            <ul class="nav nav-list">
+              <li class="nav-header">Today's topics</li>
+		 {% for t in data.topics %}
+		      <li>{{t.name}}</li>
+		 {% endfor %}
+              <li class="nav-header">Categories</li>
+		 {% for c1 in data.categories %}
+		    <li>
+			<a href="http://www.dmoz.org/{{c1.name}}">{{c1.shortname}}</a>
+		    </li>
+		 {% endfor %}
+            </ul>
+
+          </div><!--/.well -->
+        </div><!--/span-->
+
+        <div id="#right-panel" class="span8">
+		<div class="centerize">
+		  <button type="button" class="btn btn-success" onclick="window.location='/{{prev}}';"><i class="icon-arrow-left"></i> Previous</button>
+		  <button type="button" class="btn btn-success" onclick="window.location='/{{next}}';">Next <i class="icon-arrow-right"></i></button>
+		</div>
+	
+		<br>
+
+		<div id="imagecontainer">
+		  {% for img in data.images %}
+		    <div class="box"><img src="{{ img }}"/></div>
+		  {% endfor %}
+		</div>
+	
+        </div><!--/span-->
+      </div><!--/row-->
+
+      <hr>
+
+      <footer class="centerized">
+        <p>#rsparly2012</p>
+      </footer>
+
+    </div><!--/.fluid-container-->
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+	
+	<script>
+	  $(function(){
+	  });
+	</script>
+
+  </body>
+</html>
+
