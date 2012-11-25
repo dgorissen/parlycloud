@@ -65,7 +65,8 @@ def build_cache():
     results = load_cache()
 
     for fname in get_files():
-        if fname in results: 
+        fn = os.path.basename(fname).replace("debates","").replace(".xml","")
+        if fn in results: 
             print "Already have ", fname, "skipping"
             continue
 
@@ -81,7 +82,6 @@ def build_cache():
         print 
         print kwds
 
-        fn = os.path.basename(fname).replace("debates","").replace(".xml","")
         results[fn] = {"topics":kwds,"categories":cats,"images":imgs}
 
         save_cache(results)
